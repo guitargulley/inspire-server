@@ -3,7 +3,7 @@ var server = express()
 var bp = require('body-parser')
 var DBConnect = require('./config/mlab/mlab-config')
 var cors = require('cors')
-var port = "bg-inspire.herokuapp.com"
+var port = "https://bg-inspire.herokuapp.com"
 
 //route variables
 var todoRoutes = require('./server/routes/todo-routes')
