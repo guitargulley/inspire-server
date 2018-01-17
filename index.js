@@ -1,22 +1,19 @@
-var express = require('express')
-var server = express()
-var bp = require('body-parser')
-var DBConnect = require('./config/mlab/mlab-config')
-var cors = require('cors')
-var port = 3000
+var server = require('./config/dev-server')
 
-//route variables
-var todoRoutes = require('./server/routes/todo-routes')
-
-//register Middlewear
-server.use(cors({}))
-server.use(bp.json())
-server.use(bp.urlencoded({extended: true}))
+let mongoose = require('mongoose')
+let connection = mongoose.connection;
 
 
-///register routes
-server.use(todoRoutes)
+// Establishes MongoDb Connection
+mongoose.connect(process.env.CONNECTIONSTRING, {
+	useMongoClient: true,
+	keepAlive: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
+});
 
-server.listen(port, function(){
-    console.log('Serving todos on port: ', port)
-})
+connection.on('error', console.error.bind(console, 'connection error:'))
+
+connection.once('open', function () {
+	server.listen(process.env.PORT, function () {
+		console.log(`Running on port: ${process.env.PORT}`);
+	})
+});

@@ -1,3 +1,4 @@
+var  models = require('../config/constants').models
 var mongoose = require('mongoose')
 
 
@@ -7,4 +8,4 @@ var schema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('Todo', schema)
+module.exports = mongoose.model(models.todo.name, schema);
